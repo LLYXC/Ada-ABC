@@ -82,10 +82,11 @@ class LAD_Dataset(Dataset):
         #  dataset is OL3I
         if 'heart_disease' in self.dataset_tag:
             with h5py.File('/home/luoluyang/minghao_code/PBBL/dataset/image/OL3I/l3_slices.h5') as file:
-                path = file[path]
-                image_data = np.array(path)
-                image_data = image_data.astype(np.float32)
-                image = Image.fromarray(image_data).convert('RGB')
+                anon_id = path
+                image = file[anon_id]
+                image = np.array(image)
+                image = image.astype(np.float32)
+                image = Image.fromarray(image).convert('RGB')
 
 
         else:
@@ -112,7 +113,7 @@ class LAD_Dataset(Dataset):
         mask = self.masks_place[:, index].tolist()
 
         if 'heart_disease' in self.dataset_tag:
-            return image_data, image, attr, mask
+            return anon_id, image, attr, mask
         else:
             return path, image, attr, mask
     
